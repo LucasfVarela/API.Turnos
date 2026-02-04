@@ -11,9 +11,9 @@ namespace API_CoreBusiness.DataContext
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext>options): base(options) 
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-                
+
         }
 
         public DbSet<Usuarios> Usuario { get; set; }
@@ -36,8 +36,8 @@ namespace API_CoreBusiness.DataContext
                 entity.Property(e => e.PasswordSalt);
                 entity.Property(e => e.PasswordHash);
                 entity.Property(e => e.Activo);
-;
-            
+                ;
+
             });
 
             modelBuilder.Entity<Turno>(entity =>
@@ -49,7 +49,14 @@ namespace API_CoreBusiness.DataContext
                 entity.Property(e => e.Fecha_Inicio);
                 entity.Property(e => e.Fecha_Fin);
                 entity.Property(e => e.Observaciones);
-                ;
+
+                entity.HasOne(t => t.Usuario)
+                      .WithMany()
+                      .HasForeignKey(t => t.Id_Usuario);
+
+                entity.HasOne(t => t.Cliente)
+                      .WithMany()
+                      .HasForeignKey(t => t.Id_Cliente);
 
             });
 

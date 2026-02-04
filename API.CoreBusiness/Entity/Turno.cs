@@ -14,8 +14,6 @@ namespace API.CoreBusiness.Entity
     {
         public int Id { get; set; }
 
-        //public Usuarios Usuario { get; set; } 
-
         public int Id_Usuario { get; set; }
         public int Id_Cliente { get; set; }
         public int Id_Servicio { get; set; }
@@ -24,6 +22,10 @@ namespace API.CoreBusiness.Entity
         public DateTime Fecha_Fin { get; set; }
         public string? Observaciones { get; set; }
 
+        public virtual Usuarios Usuario { get; set; } 
+
+        public virtual Cliente Cliente { get; set; }
+        
      
     }
     
