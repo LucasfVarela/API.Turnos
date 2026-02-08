@@ -1,8 +1,11 @@
-﻿using API.CoreBusiness.Entity;
+﻿using API.CoreBusiness;
+using API.CoreBusiness.Entity;
+using API.UsesCases.Services;
 using API.UsesCases.Services.Interfaces;
 using API.UsesCases.UnitOfWork.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Turnos.Controllers
 {
@@ -10,23 +13,7 @@ namespace API.Turnos.Controllers
     [ApiController]
     public class TurnoController : ControllerBase
     {
-        //// GET: TurnoController
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
 
-        //// GET: TurnoController/Details/5
-        //public ActionResult Details(int id)
-        //{
-        //    return View();
-        //}
-
-        //// GET: TurnoController/Create
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
 
         private readonly IUnitOfWork unitOfWork;
         private readonly ITurnoService turnoService;
@@ -39,61 +26,58 @@ namespace API.Turnos.Controllers
         }
 
         // POST: TurnoController/Create
-        [HttpPost]
+        [HttpPost("Add")]
         //[ValidateAntiForgeryToken]
         public ActionResult Create([FromBody] Turno turno)
         {
-               var result = turnoService.NewTurno(turno);
-                return Ok(result);
             try
             {
+                var result = turnoService.NewTurno(turno);
+
+                if (result != null)
+                    return Ok(result);
+
+                return BadRequest("Ha ocurrido un error al generar el turno");
+
             }
-            catch
+            catch(Exception ex) 
             {
-                //return View();
+                return BadRequest($"{ex}");
             }
         }
 
-        //// GET: TurnoController/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
+        [HttpGet("Listar")]
+        public ActionResult Listar()
+        {
+            var result = turnoService.GetAllTurnos();
+            return Ok(result);
+        }
 
-        //// POST: TurnoController/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+        [HttpGet("{id}")]
+        public ActionResult GetById(int id)
+        {
+            var result = turnoService.GetTurnoById(id);
+            if (result == null) return NotFound();
+            return Ok(result);
+        }
 
-        //// GET: TurnoController/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
+        [HttpPut("Actualizar/{id}")]
+        public ActionResult Actualizar(int id, [FromBody] TurnoRequest request)
+        {
+            var success = turnoService.UpdateTurno(id, request);
+            if (!success) return NotFound();
+            return Ok("Turno actualizado correctamente");
+        }
 
-        //// POST: TurnoController/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Delete(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+        [HttpDelete("Eliminar/{id}")]
+        public ActionResult Eliminar(int id)
+        {
+            var success = turnoService.DeleteTurno(id);
+            if (!success) return NotFound();
+            return Ok("Turno eliminado correctamente");
+        }
+
+
+
     }
 }
