@@ -16,6 +16,7 @@ namespace API.UsesCases.UnitOfWork
         public IUsuarioRepository UsuarioRepository { get; private set; }
         public ITurnoRepository TurnoRepository { get; private set; }
         public IClienteRepository ClienteRepository { get; private set; }
+        public IServicioRepository ServicioRepository { get; private set; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -23,6 +24,7 @@ namespace API.UsesCases.UnitOfWork
             UsuarioRepository = new UsuarioRepository(context);
             TurnoRepository = new TurnoRepository(context);
             ClienteRepository = new ClienteRepository(context);
+            ServicioRepository = new ServicioRepository(context);
         }
 
 

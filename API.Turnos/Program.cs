@@ -24,7 +24,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<ITurnoService, TurnoService>();
 builder.Services.AddScoped<IClienteService, ClienteService>();
-
+builder.Services.AddScoped<IServicioService, ServicioService>();
 // Add services to the container.
 
 builder.Services.AddControllers();

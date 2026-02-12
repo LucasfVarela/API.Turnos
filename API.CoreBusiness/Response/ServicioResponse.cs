@@ -4,15 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace API.CoreBusiness.Entity
+namespace API_CoreBusiness.Response
 {
-    public class Servicio
+    public class ServicioResponse
     {
         public int Id { get; set; }
-
         public string Nombre { get; set; }
-
         public decimal Precio { get; set; }
     }
-
 }
