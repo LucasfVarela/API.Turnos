@@ -22,8 +22,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+<<<<<<< HEAD
 builder.Services.AddScoped<ITurnoService, TurnoService>();
 builder.Services.AddScoped<IClienteService, ClienteService>();
+=======
+builder.Services.AddScoped<IServicioService, ServicioService>();
+>>>>>>> rm-LN
 
 // Add services to the container.
 
@@ -37,9 +41,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "API Turnnos REST", Version = "v1" });
+<<<<<<< HEAD
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     c.IncludeXmlComments(xmlPath);
+=======
+    //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    //c.IncludeXmlComments(xmlPath);
+>>>>>>> rm-LN
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",

@@ -25,6 +25,7 @@ namespace API.Turnos.Controllers
             if (response is null) { return BadRequest("NOT FOUND"); }
             return Ok(response);
         }
+<<<<<<< HEAD
 
 
         [HttpGet("Desactivar")]
@@ -34,5 +35,7 @@ namespace API.Turnos.Controllers
             if (response is null) { return BadRequest("NOT FOUND"); }
             return Ok(response);
         }
+=======
+>>>>>>> rm-LN
     }
 }

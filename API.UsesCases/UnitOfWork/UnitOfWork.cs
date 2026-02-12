@@ -14,15 +14,23 @@ namespace API.UsesCases.UnitOfWork
     {
         private readonly ApplicationDbContext context;
         public IUsuarioRepository UsuarioRepository { get; private set; }
+<<<<<<< HEAD
         public ITurnoRepository TurnoRepository { get; private set; }
         public IClienteRepository ClienteRepository { get; private set; }
+=======
+        public IServicioRepository ServicioRepository { get; private set; }
+>>>>>>> rm-LN
 
         public UnitOfWork(ApplicationDbContext context)
         {
             this.context = context;
             UsuarioRepository = new UsuarioRepository(context);
+<<<<<<< HEAD
             TurnoRepository = new TurnoRepository(context);
             ClienteRepository = new ClienteRepository(context);
+=======
+            ServicioRepository = new ServicioRepository(context); 
+>>>>>>> rm-LN
         }
 
 

@@ -11,8 +11,12 @@ namespace API.UsesCases.UnitOfWork.Interfaces
     public interface IUnitOfWork : IDisposable
     {
         IUsuarioRepository UsuarioRepository { get; }
+<<<<<<< HEAD
         ITurnoRepository TurnoRepository { get; }
         IClienteRepository ClienteRepository { get; }
+=======
+        IServicioRepository ServicioRepository { get; } 
+>>>>>>> rm-LN
         void Save();
     }
 }

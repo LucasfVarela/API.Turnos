@@ -40,8 +40,14 @@ namespace API.UsesCases.Services
             {
                 UsuarioResponse response = new UsuarioResponse();
                 if (!ValidPassword(password, Usuario.PasswordSalt, Usuario.PasswordHash))
+<<<<<<< HEAD
                     return null;
 
+=======
+                {
+                    return null;
+                }
+>>>>>>> rm-LN
                 response.Id = Usuario.Id;
                 response.Role = Usuario.Role;
                 response.EMail = email;
@@ -61,10 +67,16 @@ namespace API.UsesCases.Services
             Usuarios NewUsuario = new Usuarios();
             NewUsuario.Nombre = usuarioRequest.Nombre;
             NewUsuario.Email = usuarioRequest.Email;
+<<<<<<< HEAD
             NewUsuario.Fecha_Add = DateTime.Now;
             NewUsuario.PasswordHash = passwordHash;
             NewUsuario.PasswordSalt = passwordSalt;
             NewUsuario.Activo = true;
+=======
+            NewUsuario.PasswordHash = passwordHash;
+            NewUsuario.PasswordSalt = passwordSalt;
+
+>>>>>>> rm-LN
             //Esto hay que definir que venga el roll desde el front
             NewUsuario.Role = Role.Cliente;
 
@@ -82,6 +94,7 @@ namespace API.UsesCases.Services
 
         }
 
+<<<<<<< HEAD
         public UsuarioResponse DeleteUsuario(int Id_Usuario)
         {
             var usuario = UnitOfWork.UsuarioRepository.Find(x => x.Id == Id_Usuario && x.Activo == true).FirstOrDefault();
@@ -90,6 +103,8 @@ namespace API.UsesCases.Services
 
 
 
+=======
+>>>>>>> rm-LN
         public string GetToken(UsuarioResponse usuarioResponse)
         {
             var claims = new[]

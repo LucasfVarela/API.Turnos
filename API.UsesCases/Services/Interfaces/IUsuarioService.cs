@@ -15,6 +15,10 @@ namespace API.UsesCases.Services.Interfaces
         UsuarioResponse Registrar(UsuarioRequest usuarioRequest, string password);
         IEnumerable<Usuarios> GetUsuarios();
         string GetToken(UsuarioResponse usuarioResponse);
+<<<<<<< HEAD
         UsuarioResponse DeleteUsuario(int Id_Usuario);
+=======
+
+>>>>>>> rm-LN
     }
 }

@@ -20,9 +20,12 @@ namespace API_CoreBusiness.Entity
         [EmailAddress]
         public string Email { get; set; }
         public Role Role { get; set; }
+<<<<<<< HEAD
         public bool Activo { get; set; }
         [NotMapped]
         public int Id_Categoria { get; set; }
+=======
+>>>>>>> rm-LN
         public DateTime Fecha_Add { get; set; }
         public DateTime Fecha_Mod { get; set; }
         public byte[] PasswordHash { get; set; }

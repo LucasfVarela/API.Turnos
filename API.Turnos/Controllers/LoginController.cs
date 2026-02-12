@@ -8,12 +8,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Turnos.Controllers
 {
+<<<<<<< HEAD
     [Route("auth/")]
+=======
+    [Route("API/")]
+>>>>>>> rm-LN
     [ApiController]
     public class LoginController : ControllerBase
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IUsuarioService usuarioService;
+<<<<<<< HEAD
         private readonly IClienteService clienteService;
        
 
@@ -23,6 +28,14 @@ namespace API.Turnos.Controllers
             this.unitOfWork = unitOfWork;
             this.usuarioService = usuarioService;
             this.clienteService = clienteService;
+=======
+
+
+        public LoginController(IUnitOfWork unitOfWork, IUsuarioService usuarioService)
+        {
+            this.unitOfWork = unitOfWork;
+            this.usuarioService = usuarioService;
+>>>>>>> rm-LN
         }
 
         [HttpPost("Login")]
@@ -45,6 +58,7 @@ namespace API.Turnos.Controllers
             UsuarioResponse response = usuarioService.Registrar(request,request.Password);
             return Ok(response);
         }
+<<<<<<< HEAD
 
 
         [HttpPost("Login/Cliente")]
@@ -67,6 +81,8 @@ namespace API.Turnos.Controllers
             ClienteResponse response = clienteService.Registrar(request, request.Password);
             return Ok(response);
         }
+=======
+>>>>>>> rm-LN
     }
 }
 

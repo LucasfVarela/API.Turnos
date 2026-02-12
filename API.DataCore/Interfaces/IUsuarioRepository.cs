@@ -1,10 +1,5 @@
 ﻿using API.GenericCore.GenericRepository.Interfaces;
 using API_CoreBusiness.Entity;
-<<<<<<< HEAD
-using API_CoreBusiness.Response;
-using API_DataCore.Repository;
-=======
->>>>>>> rm-LN
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +10,6 @@ namespace API_DataCore.Interfaces
 {
     public interface IUsuarioRepository : IGenericRepository<Usuarios>
     {
-<<<<<<< HEAD
-        UsuarioResponse SoftDelete(Usuarios usuarios);
-=======
->>>>>>> rm-LN
         Usuarios? GetByEmail(string Email);
         bool ExisteUsuario(string email);
 
