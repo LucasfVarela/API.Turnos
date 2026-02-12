@@ -17,6 +17,7 @@ namespace API_CoreBusiness.DataContext
         }
 
         public DbSet<Usuarios> Usuario { get; set; }
+        public DbSet<Cliente> Cliente { get; set; }
 
         public DbSet<Turno> Turno { get; set; }
 
@@ -27,6 +28,20 @@ namespace API_CoreBusiness.DataContext
 
             // Configuraciones adicionales
             modelBuilder.Entity<Usuarios>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Nombre).IsRequired().HasMaxLength(200);
+                entity.Property(e => e.Email);
+                entity.HasKey(e => e.Fecha_Add);
+                entity.Property(e => e.Fecha_Mod);
+                entity.Property(e => e.PasswordSalt);
+                entity.Property(e => e.PasswordHash);
+                entity.Property(e => e.Activo);
+                ;
+
+            });
+
+            modelBuilder.Entity<Cliente>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Nombre).IsRequired().HasMaxLength(200);

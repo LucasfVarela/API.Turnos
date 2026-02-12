@@ -14,12 +14,15 @@ namespace API.Turnos.Controllers
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IUsuarioService usuarioService;
+        private readonly IClienteService clienteService;
+       
 
 
-        public LoginController(IUnitOfWork unitOfWork, IUsuarioService usuarioService)
+        public LoginController(IUnitOfWork unitOfWork ,IUsuarioService usuarioService, IClienteService clienteService)
         {
             this.unitOfWork = unitOfWork;
             this.usuarioService = usuarioService;
+            this.clienteService = clienteService;
         }
 
         [HttpPost("Login")]
@@ -40,6 +43,28 @@ namespace API.Turnos.Controllers
         {
             if (unitOfWork.UsuarioRepository.ExisteUsuario(request.Email.ToLower())) return BadRequest("");
             UsuarioResponse response = usuarioService.Registrar(request,request.Password);
+            return Ok(response);
+        }
+
+
+        [HttpPost("Login/Cliente")]
+        public ActionResult LoginCliente([FromBody] ClienteRequest request)
+        {
+            var response = clienteService.Login(request.Email, request.Password);
+            if (response is null) { return BadRequest("Contraseña incorrecta"); }
+            var token = clienteService.GetToken(response);
+            return Ok(new
+            {
+                token = token,
+                usuario = response,
+            });
+        }
+
+        [HttpPost("Registrar/Cliente")]
+        public ActionResult RegistrarCliente([FromBody] ClienteRequest request)
+        {
+            if (unitOfWork.ClienteRepository.ExisteUsuario(request.Email.ToLower())) return BadRequest("");
+            ClienteResponse response = clienteService.Registrar(request, request.Password);
             return Ok(response);
         }
     }
