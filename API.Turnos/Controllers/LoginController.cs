@@ -25,7 +25,7 @@ namespace API.Turnos.Controllers
             this.clienteService = clienteService;
         }
 
-        [HttpPost("Login")]
+        [HttpPost("Login/Usuario")]
         public ActionResult Login([FromBody] UsuarioRequest request)
         {
             var response = usuarioService.Login(request.Email, request.Password);
@@ -38,7 +38,7 @@ namespace API.Turnos.Controllers
             });
         }
 
-        [HttpPost("Registrar")]
+        [HttpPost("Registrar/Usuario")]
         public ActionResult Registrar([FromBody] UsuarioRequest request)
         {
             if (unitOfWork.UsuarioRepository.ExisteUsuario(request.Email.ToLower())) return BadRequest("");
