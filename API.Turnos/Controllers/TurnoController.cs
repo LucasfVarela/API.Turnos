@@ -1,5 +1,6 @@
 ﻿using API.CoreBusiness;
 using API.CoreBusiness.Entity;
+using API.CoreBusiness.Request;
 using API.UsesCases.Services;
 using API.UsesCases.Services.Interfaces;
 using API.UsesCases.UnitOfWork.Interfaces;
@@ -77,7 +78,18 @@ namespace API.Turnos.Controllers
             return Ok("Turno eliminado correctamente");
         }
 
+        [HttpPost("Disponibilidad")]
+        public ActionResult GetDisponibilidad([FromBody] DisponibilidadRequest request)
+        {
+            // Validar que la fecha sea futura (opcional)
+            if (request.Fecha.Date < DateTime.Now.Date)
+            {
+                return BadRequest("La fecha debe ser igual o posterior a hoy.");
+            }
 
+            var result = turnoService.GetDisponibilidad(request);
+            return Ok(result);
+        }
 
     }
 }

@@ -21,6 +21,19 @@ namespace API_DataCore.Repository
                 
         }
 
-       
+        public IEnumerable<Turno> GetTurnosPorFecha(DateTime fecha, int? idUsuario = null)
+        {
+            var query = context.Turno.AsQueryable();
+
+            
+            query = query.Where(t => t.Fecha_Inicio.Date == fecha.Date && t.Status == true);
+
+            if (idUsuario.HasValue)
+            {
+                query = query.Where(t => t.Id_Usuario == idUsuario.Value);
+            }
+
+            return query.ToList();
+        }
     }
 }

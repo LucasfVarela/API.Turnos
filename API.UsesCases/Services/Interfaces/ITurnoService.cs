@@ -1,5 +1,7 @@
 ﻿using API.CoreBusiness;
 using API.CoreBusiness.Entity;
+using API.CoreBusiness.Request;
+using API.CoreBusiness.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +18,7 @@ namespace API.UsesCases.Services.Interfaces
         TurnoResponse GetTurnoById(int id);
         bool UpdateTurno(int id, TurnoRequest request);
         bool DeleteTurno(int id);
+       
+        IEnumerable<HorarioDisponibleResponse> GetDisponibilidad(DisponibilidadRequest request);
     }
 }
