@@ -81,7 +81,7 @@ namespace API.Turnos.Controllers
         [HttpPost("Disponibilidad")]
         public ActionResult GetDisponibilidad([FromBody] DisponibilidadRequest request)
         {
-            // Validar que la fecha sea futura (opcional)
+            
             if (request.Fecha.Date < DateTime.Now.Date)
             {
                 return BadRequest("La fecha debe ser igual o posterior a hoy.");
