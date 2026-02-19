@@ -1,5 +1,6 @@
 ﻿using API.GenericCore.GenericRepository.Interfaces;
 using API_CoreBusiness.DataContext;
+using Microsoft.EntityFrameworkCore; 
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,8 +32,19 @@ namespace API.GenericCore.GenericRepository
 
         public IEnumerable<T> Find(Expression<Func<T, bool>> predicate)=> context.Set<T>().Where(predicate);
 
-        public IEnumerable<T> GetAll() => context.Set<T>().ToList();
-        
+        public IEnumerable<T> GetAll(string includeProperties = "")
+        {
+            IQueryable<T> query = context.Set<T>();
 
+            if (!string.IsNullOrWhiteSpace(includeProperties))
+            {
+                foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProperty);
+                }
+            }
+
+            return query.ToList();
+        }
     }
 }

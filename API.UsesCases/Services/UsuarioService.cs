@@ -65,7 +65,6 @@ namespace API.UsesCases.Services
             NewUsuario.PasswordHash = passwordHash;
             NewUsuario.PasswordSalt = passwordSalt;
             NewUsuario.Activo = true;
-            //Esto hay que definir que venga el roll desde el front
             NewUsuario.Role = Role.Cliente;
 
             UnitOfWork.UsuarioRepository.Insert(NewUsuario);

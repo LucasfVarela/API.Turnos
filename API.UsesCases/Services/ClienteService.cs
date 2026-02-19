@@ -24,32 +24,29 @@ namespace API.UsesCases.Services
         private readonly IUnitOfWork UnitOfWork;
         private readonly IConfiguration Configuration;
 
-
         public ClienteService(IUnitOfWork unitOfWork, IConfiguration configuration)
         {
             this.UnitOfWork = unitOfWork;
             this.Configuration = configuration;
         }
 
-
         public ClienteResponse Login(string email, string password)
         {
-
             Cliente? Usuario = UnitOfWork.ClienteRepository.GetByEmail(email);
 
             if (Usuario is not null)
             {
-                ClienteResponse response = new ClienteResponse();
                 if (!ValidPassword(password, Usuario.PasswordSalt, Usuario.PasswordHash))
                     return null;
 
-                response.Id = Usuario.Id;
-                //response.Role = Usuario.Role;
-                response.EMail = email;
-                response.Nombre = Usuario.Nombre;
-                response.Fecha_Add = Usuario.Fecha_Add;
-                response.Fecha_Mod = Usuario.Fecha_Mod;
-                return response;
+                return new ClienteResponse
+                {
+                    Id = Usuario.Id,
+                    EMail = email,
+                    Nombre = Usuario.Nombre,
+                    Fecha_Add = Usuario.Fecha_Add,
+                    Fecha_Mod = Usuario.Fecha_Mod
+                };
             }
             return null;
         }
@@ -59,15 +56,17 @@ namespace API.UsesCases.Services
             byte[] passwordHash;
             byte[] passwordSalt;
             BuildPassword(password, out passwordHash, out passwordSalt);
+
             Cliente NewCliente = new Cliente();
             NewCliente.Nombre = clienteRequest.Nombre;
             NewCliente.Email = clienteRequest.Email;
+            
             NewCliente.Fecha_Add = DateTime.Now;
+            NewCliente.Fecha_Mod = DateTime.Now; 
+            
             NewCliente.PasswordHash = passwordHash;
             NewCliente.PasswordSalt = passwordSalt;
             NewCliente.Activo = true;
-            //Esto hay que definir que venga el roll desde el front
-            //NewCliente.Role = Role.Cliente;
 
             UnitOfWork.ClienteRepository.Insert(NewCliente);
             UnitOfWork.Save();
@@ -75,29 +74,26 @@ namespace API.UsesCases.Services
             return new ClienteResponse()
             {
                 Id = NewCliente.Id,
-                //Role = NewCliente.Role,
                 EMail = NewCliente.Email,
                 Nombre = NewCliente.Nombre,
-                Fecha_Add = DateTime.Now,
+                Fecha_Add = NewCliente.Fecha_Add,
+                Fecha_Mod = NewCliente.Fecha_Mod
             };
-
         }
 
         public ClienteResponse DeleteUsuario(int Id_Cliente)
         {
             var cliente = UnitOfWork.ClienteRepository.Find(x => x.Id == Id_Cliente && x.Activo == true).FirstOrDefault();
-          return  UnitOfWork.ClienteRepository.SoftDelete(cliente);
+            if (cliente == null) return null;
+            return UnitOfWork.ClienteRepository.SoftDelete(cliente);
         }
-
-
 
         public string GetToken(ClienteResponse clienteResponse)
         {
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Email, clienteResponse.EMail),
-                new Claim(JwtRegisteredClaimNames.NameId,clienteResponse.Id.ToString()),
-                new Claim(ClaimTypes.Role, clienteResponse.Role.ToString()),
+                new Claim(JwtRegisteredClaimNames.NameId, clienteResponse.Id.ToString()),
             };
 
             var Key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]));
@@ -111,7 +107,6 @@ namespace API.UsesCases.Services
                 Audience = Configuration["Jwt:Audience"]
             };
 
-            var claimsIdentity = new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme);
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
@@ -122,36 +117,31 @@ namespace API.UsesCases.Services
             return UnitOfWork.ClienteRepository.GetAll();
         }
 
-        #region Private method
+        #region Private methods
         private void BuildPassword(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
-            HMACSHA512 hMac = new HMACSHA512();
-            passwordSalt = hMac.Key;
-            passwordHash = hMac.ComputeHash(Encoding.UTF8.GetBytes(password));
+            using (var hMac = new HMACSHA512())
+            {
+                passwordSalt = hMac.Key;
+                passwordHash = hMac.ComputeHash(Encoding.UTF8.GetBytes(password));
+            }
         }
+
         private bool ValidPassword(string password, byte[] passSalt, byte[] passHash)
         {
-
-            HMACSHA512 hMac = new HMACSHA512(passSalt);
-            byte[] hash = hMac.ComputeHash(Encoding.UTF8.GetBytes(password));
-
-            //Implemente branchless tengo que ser si me funciona , sino dejo el if normal
-
-            int diff = 0;
-            for (int i = 0; i < hash.Length; i++)
+            using (var hMac = new HMACSHA512(passSalt))
             {
-                diff |= hash[i] ^ passHash[i];
+                byte[] hash = hMac.ComputeHash(Encoding.UTF8.GetBytes(password));
+                
+                int diff = 0;
+                if (hash.Length != passHash.Length) return false;
+                for (int i = 0; i < hash.Length; i++)
+                {
+                    diff |= hash[i] ^ passHash[i];
+                }
+                return diff == 0;
             }
-            return diff == 0;
-
-
-            //for (int i = 0; i < hash.Length; i++)
-            //{
-            //    if (hash[i] != passHash[i]) return false;
-            //}
-            //return true
         }
         #endregion
     }
-
 }
