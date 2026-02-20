@@ -7,7 +7,9 @@
         public string? NombreUsuario { get; set; }
         
         public int Id_Comercio { get; set; } 
-        public string? NombreComercio { get; set; } 
+        public string? NombreComercio { get; set; }
+        
+        public string? DireccionComercio { get; set; }
         
         public int Id_Servicio { get; set; }
         public string? NombreServicio { get; set; }

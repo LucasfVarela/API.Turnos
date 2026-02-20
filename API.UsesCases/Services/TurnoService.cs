@@ -85,6 +85,7 @@ namespace API.UsesCases.Services
                 Observaciones = t.Observaciones,
                 NombreUsuario = t.Usuario?.Nombre ?? "Usuario N/A",
                 NombreComercio = t.Comercio?.Nombre ?? "Negocio no encontrado", 
+                DireccionComercio = t.Comercio?.Direccion ?? "Negocio no encontrado",
                 NombreServicio = t.Servicio?.Nombre ?? "Servicio no encontrado"
             };
         }
