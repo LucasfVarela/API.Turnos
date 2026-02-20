@@ -14,10 +14,10 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+// AQUÍ ESTÁ EL CAMBIO: Quitamos la referencia a "Turnos_DB"
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("Turnos_DB"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -26,7 +26,7 @@ builder.Services.AddScoped<ITurnoService, TurnoService>();
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IComercioService, ComercioService>();
 builder.Services.AddScoped<IServicioService, ServicioService>();
-
+builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 
 builder.Services.AddControllers();
 builder.Services.AddControllers().AddJsonOptions(x =>
@@ -90,6 +90,12 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod()
                 .AllowCredentials();
         });
+});
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+        b => b.MigrationsAssembly("API.Turnos")); // <-- Agregamos esto
 });
 
 var app = builder.Build();

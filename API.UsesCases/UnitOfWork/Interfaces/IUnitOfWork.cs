@@ -16,8 +16,10 @@ namespace API.UsesCases.UnitOfWork.Interfaces
         IServicioRepository ServicioRepository { get; }
         
         IComercioRepository ComercioRepository { get; }
-        
-        
+
+        ICategoriaRepository CategoriaRepository { get; }
+
+
         void Save();
     }
 }
