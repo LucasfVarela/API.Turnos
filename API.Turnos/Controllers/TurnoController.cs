@@ -91,12 +91,29 @@ namespace API.Turnos.Controllers
             try
             {
                 var deleted = _turnoService.DeleteTurno(id);
-                if (deleted) return Ok("Turno eliminado correctamente");
-                return BadRequest("No se pudo eliminar el turno o no existe");
+
+                // Cambiamos a formato JSON con "new { }"
+                if (deleted) return Ok(new { mensaje = "Turno eliminado correctamente" });
+
+                return BadRequest(new { mensaje = "No se pudo eliminar el turno o no existe" });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { mensaje = ex.Message });
+            }
+        }
+        [HttpPut("Cancelar/{id}")]
+        public ActionResult Cancelar(int id)
+        {
+            try
+            {
+                var cancelado = _turnoService.CancelarTurno(id);
+                if (cancelado) return Ok(new { mensaje = "Turno cancelado correctamente" });
+                return BadRequest(new { mensaje = "No se pudo cancelar el turno" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { mensaje = ex.Message });
             }
         }
     }

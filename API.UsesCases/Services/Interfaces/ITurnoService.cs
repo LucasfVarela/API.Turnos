@@ -16,5 +16,6 @@ namespace API.UsesCases.Services.Interfaces
         TurnoResponse GetTurnoById(int id);
         bool UpdateTurno(int id, TurnoRequest request);
         bool DeleteTurno(int id);
+        bool CancelarTurno(int id);
     }
 }

@@ -89,5 +89,18 @@ namespace API.UsesCases.Services
                 NombreServicio = t.Servicio?.Nombre ?? "Servicio no encontrado"
             };
         }
+        public bool CancelarTurno(int id)
+        {
+            var entity = UnitOfWork.TurnoRepository.GetById(id);
+            if (entity == null) return false;
+
+            entity.Status = false;
+
+            // Obligamos a Entity Framework a registrar la modificación
+            UnitOfWork.TurnoRepository.Update(entity);
+            UnitOfWork.Save();
+
+            return true;
+        }
     }
 }
