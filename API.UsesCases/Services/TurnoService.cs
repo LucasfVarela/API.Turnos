@@ -39,7 +39,11 @@ namespace API.UsesCases.Services
 
         public TurnoResponse GetTurnoById(int id)
         {
-            var turno = UnitOfWork.TurnoRepository.GetById(id);
+            // Usamos GetAll con includeProperties para traer los datos del cliente y negocio, y luego filtramos por el ID
+            var turno = UnitOfWork.TurnoRepository
+                        .GetAll(includeProperties: "Usuario,Comercio,Servicio")
+                        .FirstOrDefault(t => t.Id == id);
+
             return turno != null ? MapToResponse(turno) : null;
         }
 

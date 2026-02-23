@@ -52,5 +52,13 @@ namespace API.Turnos.Controllers
 
             return Ok(response);
         }
+
+        [HttpPut("ActualizarComercio/{id}")]
+        public ActionResult ActualizarComercio(int id, [FromBody] ComercioRequest request)
+        {
+            var response = comercioService.ActualizarComercio(id, request);
+            if (response == null) return BadRequest("No se pudo actualizar el comercio.");
+            return Ok(response);
+        }
     }
 }

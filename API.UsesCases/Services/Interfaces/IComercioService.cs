@@ -9,5 +9,6 @@ namespace API.UsesCases.Services.Interfaces
         IEnumerable<ComercioResponse> GetComercios();
         ComercioResponse CrearComercio(ComercioRequest request);
         ComercioResponse? GetComercioPorCliente(int idCliente);
+        ComercioResponse ActualizarComercio(int id, ComercioRequest request);
     }
 }
