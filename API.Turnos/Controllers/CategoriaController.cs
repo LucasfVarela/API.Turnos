@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Turnos.Controllers
 {
-    // CAMBIO CLAVE AQUÍ ABAJO: Le decimos que use "api/NombreDelControlador"
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriaController : ControllerBase

@@ -29,7 +29,7 @@ namespace API.UsesCases.Services
                 Direccion = c.Direccion ?? "Sin dirección",
                 Id_Categoria = c.Id_Categoria,
                 Id_Cliente = c.Id_Cliente,
-                Dias = c.Dias, // AHORA SÍ PASAMOS LOS DÍAS
+                Dias = c.Dias, 
                 Horario_Inicio = c.Horario_Inicio,
                 Horario_Fin = c.Horario_Fin,
                 DatosAdicionales = c.DatosAdicionales
@@ -93,7 +93,7 @@ namespace API.UsesCases.Services
                 Direccion = comercio.Direccion ?? "",
                 Id_Categoria = comercio.Id_Categoria,
                 Id_Cliente = comercio.Id_Cliente,
-                Dias = comercio.Dias, // AHORA SÍ SE MANDAN AL PERFIL
+                Dias = comercio.Dias, 
                 Horario_Inicio = comercio.Horario_Inicio,
                 Horario_Fin = comercio.Horario_Fin,
                 DatosAdicionales = comercio.DatosAdicionales
@@ -105,11 +105,11 @@ namespace API.UsesCases.Services
             var comercio = unitOfWork.ComercioRepository.GetAll().FirstOrDefault(c => c.Id == id);
             if (comercio == null) return null;
 
-            comercio.Nombre = request.Nombre; // <-- Agregado
+            comercio.Nombre = request.Nombre; 
             comercio.Direccion = request.Direccion;
-            comercio.Id_Categoria = request.Id_Categoria; // <-- Agregado
+            comercio.Id_Categoria = request.Id_Categoria; 
             comercio.Dias = request.Dias;
-            comercio.DatosAdicionales = request.DatosAdicionales; // <-- Agregado
+            comercio.DatosAdicionales = request.DatosAdicionales; 
 
             try
             {

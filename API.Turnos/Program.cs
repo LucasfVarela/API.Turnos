@@ -14,7 +14,6 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// AQUÍ ESTÁ EL CAMBIO: Quitamos la referencia a "Turnos_DB"
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));

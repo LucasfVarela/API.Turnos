@@ -39,7 +39,6 @@ namespace API.UsesCases.Services
 
         public TurnoResponse GetTurnoById(int id)
         {
-            // Usamos GetAll con includeProperties para traer los datos del cliente y negocio, y luego filtramos por el ID
             var turno = UnitOfWork.TurnoRepository
                         .GetAll(includeProperties: "Usuario,Comercio,Servicio")
                         .FirstOrDefault(t => t.Id == id);
@@ -100,7 +99,6 @@ namespace API.UsesCases.Services
 
             entity.Status = false;
 
-            // Obligamos a Entity Framework a registrar la modificación
             UnitOfWork.TurnoRepository.Update(entity);
             UnitOfWork.Save();
 

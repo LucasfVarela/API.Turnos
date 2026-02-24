@@ -92,7 +92,6 @@ namespace API.Turnos.Controllers
             {
                 var deleted = _turnoService.DeleteTurno(id);
 
-                // Cambiamos a formato JSON con "new { }"
                 if (deleted) return Ok(new { mensaje = "Turno eliminado correctamente" });
 
                 return BadRequest(new { mensaje = "No se pudo eliminar el turno o no existe" });

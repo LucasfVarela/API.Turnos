@@ -18,7 +18,7 @@ namespace API_CoreBusiness.DataContext
         public DbSet<Comercio> Comercio { get; set; }
         public DbSet<Servicio> Servicio { get; set; }
 
-        // AGREGA ESTA LÍNEA AQUÍ
+        
         public DbSet<Categoria> Categoria { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -81,7 +81,6 @@ namespace API_CoreBusiness.DataContext
                 entity.Property(e => e.Id_Comercio).IsRequired();
             });
 
-            // AGREGA ESTE BLOQUE AL FINAL PARA CONFIGURAR LA TABLA
             modelBuilder.Entity<Categoria>(entity =>
             {
                 entity.HasKey(e => e.Id);
