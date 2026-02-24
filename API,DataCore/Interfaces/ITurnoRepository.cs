@@ -10,5 +10,7 @@ namespace API_DataCore.Interfaces
 {
     public interface ITurnoRepository :  IGenericRepository<Turno>
     {
+  
+        IEnumerable<Turno> GetTurnosPorFecha(DateTime fecha, int? idUsuario = null);
     }
 }
