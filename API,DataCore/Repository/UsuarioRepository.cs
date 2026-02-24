@@ -25,7 +25,6 @@ namespace API_DataCore.Repository
 
         public UsuarioResponse SoftDelete(Usuarios usuarios )
         {
-            //if (Id is null || Id == 0) throw new ArgumentNullException(nameof(Id));
             usuarios.Activo = false;
             usuarios.Fecha_Mod = DateTime.Now;
             context.Usuario.Update(usuarios);

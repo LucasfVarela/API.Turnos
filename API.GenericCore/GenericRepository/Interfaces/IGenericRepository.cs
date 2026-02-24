@@ -12,7 +12,10 @@ namespace API.GenericCore.GenericRepository.Interfaces
         void Insert(T entity);
         void Update(T entity);
         void Delete(int? Id);
-        IEnumerable<T> GetAll();
+        
+       
+        IEnumerable<T> GetAll(string includeProperties = "");
+        
         IEnumerable<T> Find(Expression<Func<T,bool>>predicate);
         T GetById(int? id);
     }

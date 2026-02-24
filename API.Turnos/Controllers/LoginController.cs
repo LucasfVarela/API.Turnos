@@ -29,7 +29,10 @@ namespace API.Turnos.Controllers
         public ActionResult Login([FromBody] UsuarioRequest request)
         {
             var response = usuarioService.Login(request.Email, request.Password);
-            if (response is null) { return BadRequest("Contraseña incorrecta"); }
+            if (response is null)
+            {
+                return BadRequest(new { mensaje = "Contraseña incorrecta" });
+            }
             var token = usuarioService.GetToken(response);
             return Ok(new
             {
@@ -51,7 +54,10 @@ namespace API.Turnos.Controllers
         public ActionResult LoginCliente([FromBody] ClienteRequest request)
         {
             var response = clienteService.Login(request.Email, request.Password);
-            if (response is null) { return BadRequest("Contraseña incorrecta"); }
+            if (response is null)
+            {
+                return BadRequest(new { mensaje = "Contraseña incorrecta" });
+            }
             var token = clienteService.GetToken(response);
             return Ok(new
             {

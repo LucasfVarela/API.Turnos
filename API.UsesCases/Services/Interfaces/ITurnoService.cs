@@ -18,7 +18,6 @@ namespace API.UsesCases.Services.Interfaces
         TurnoResponse GetTurnoById(int id);
         bool UpdateTurno(int id, TurnoRequest request);
         bool DeleteTurno(int id);
-       
-        IEnumerable<HorarioDisponibleResponse> GetDisponibilidad(DisponibilidadRequest request);
+        bool CancelarTurno(int id);
     }
 }

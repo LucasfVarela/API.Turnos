@@ -65,7 +65,6 @@ namespace API.UsesCases.Services
             NewUsuario.PasswordHash = passwordHash;
             NewUsuario.PasswordSalt = passwordSalt;
             NewUsuario.Activo = true;
-            //Esto hay que definir que venga el roll desde el front
             NewUsuario.Role = Role.Cliente;
 
             UnitOfWork.UsuarioRepository.Insert(NewUsuario);
@@ -130,11 +129,14 @@ namespace API.UsesCases.Services
         }
         private bool ValidPassword(string password, byte[] passSalt, byte[] passHash)
         {
+            // 1. ESCUDO ANTI-CRASHEO: Si los datos en la base de datos están vacíos (nulos), rechaza el login sin explotar.
+            if (passSalt == null || passHash == null) return false;
 
             HMACSHA512 hMac = new HMACSHA512(passSalt);
             byte[] hash = hMac.ComputeHash(Encoding.UTF8.GetBytes(password));
 
-            //Implemente branchless tengo que ser si me funciona , sino dejo el if normal
+            // 2. Si el largo no coincide, rechaza de una.
+            if (hash.Length != passHash.Length) return false;
 
             int diff = 0;
             for (int i = 0; i < hash.Length; i++)
@@ -142,13 +144,6 @@ namespace API.UsesCases.Services
                 diff |= hash[i] ^ passHash[i];
             }
             return diff == 0;
-
-
-            //for (int i = 0; i < hash.Length; i++)
-            //{
-            //    if (hash[i] != passHash[i]) return false;
-            //}
-            //return true
         }
         #endregion
     }

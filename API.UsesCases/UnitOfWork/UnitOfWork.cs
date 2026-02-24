@@ -13,24 +13,35 @@ namespace API.UsesCases.UnitOfWork
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext context;
+
         public IUsuarioRepository UsuarioRepository { get; private set; }
         public ITurnoRepository TurnoRepository { get; private set; }
         public IClienteRepository ClienteRepository { get; private set; }
+        public IServicioRepository ServicioRepository { get; private set; }
+        public IComercioRepository ComercioRepository { get; private set; }
+
+        
+        public ICategoriaRepository CategoriaRepository { get; private set; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
             this.context = context;
+
             UsuarioRepository = new UsuarioRepository(context);
             TurnoRepository = new TurnoRepository(context);
             ClienteRepository = new ClienteRepository(context);
-        }
+            ServicioRepository = new ServicioRepository(context);
+            ComercioRepository = new ComercioRepository(context);
 
+            
+            CategoriaRepository = new CategoriaRepository(context);
+        }
 
         public void Dispose()
         {
             context.Dispose();
-
         }
+
         public void Save()
         {
             context.SaveChanges();

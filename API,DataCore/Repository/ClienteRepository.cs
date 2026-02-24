@@ -26,7 +26,6 @@ namespace API_DataCore.Repository
 
         public ClienteResponse SoftDelete(Cliente cliente )
         {
-            //if (Id is null || Id == 0) throw new ArgumentNullException(nameof(Id));
             cliente.Activo = false;
             cliente.Fecha_Mod = DateTime.Now;
             context.Cliente.Update(cliente);

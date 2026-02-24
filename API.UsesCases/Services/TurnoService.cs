@@ -3,19 +3,17 @@ using API.CoreBusiness.Entity;
 using API.CoreBusiness.Request;
 using API.CoreBusiness.Response;
 using API.UsesCases.Services.Interfaces;
-using API.UsesCases.UnitOfWork;
 using API.UsesCases.UnitOfWork.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace API.UsesCases.Services
 {
     public class TurnoService : ITurnoService
     {
         private readonly IUnitOfWork UnitOfWork;
+
         public TurnoService(IUnitOfWork unitOfWork)
         {
             this.UnitOfWork = unitOfWork;
@@ -23,32 +21,30 @@ namespace API.UsesCases.Services
 
         public Turno NewTurno(Turno turno)
         {
+            
+            turno.Usuario = null;
+            turno.Comercio = null; 
+            turno.Servicio = null;
 
-            Turno NewTurno = new Turno();
-            NewTurno.Id_Usuario = turno.Id_Usuario;
-            NewTurno.Id_Cliente = turno.Id_Cliente;
-            NewTurno.Id_Servicio = turno.Id_Servicio;
-            NewTurno.Status = turno.Status;
-            NewTurno.Fecha_Inicio = turno.Fecha_Inicio;
-            NewTurno.Fecha_Fin = turno.Fecha_Fin;
-            NewTurno.Observaciones = turno.Observaciones;
-
-            UnitOfWork.TurnoRepository.Insert(NewTurno);
+            UnitOfWork.TurnoRepository.Insert(turno);
             UnitOfWork.Save();
        
-            return NewTurno;
-            
+            return turno;
         }
 
         public IEnumerable<TurnoResponse> GetAllTurnos()
         {
-            var turnos = UnitOfWork.TurnoRepository.GetAll();
+           
+            var turnos = UnitOfWork.TurnoRepository.GetAll(includeProperties: "Usuario,Comercio,Servicio");
             return turnos.Select(MapToResponse);
         }
 
         public TurnoResponse GetTurnoById(int id)
         {
-            var turno = UnitOfWork.TurnoRepository.GetById(id);
+            var turno = UnitOfWork.TurnoRepository
+                        .GetAll(includeProperties: "Usuario,Comercio,Servicio")
+                        .FirstOrDefault(t => t.Id == id);
+
             return turno != null ? MapToResponse(turno) : null;
         }
 
@@ -58,7 +54,7 @@ namespace API.UsesCases.Services
             if (entity == null) return false;
 
             entity.Id_Usuario = request.Id_Usuario;
-            entity.Id_Cliente = request.Id_Cliente;
+            entity.Id_Comercio = request.Id_Comercio; 
             entity.Id_Servicio = request.Id_Servicio;
             entity.Status = request.Status;
             entity.Fecha_Inicio = request.Fecha_Inicio;
@@ -83,8 +79,7 @@ namespace API.UsesCases.Services
             
              
             int duracionMinutos = 20; 
-            // var servicio = _unitOfWork.ServicioRepository.GetById(request.Id_Servicio);
-            // int duracionMinutos = servicio.Duracion;
+
             #endregion
             
 
@@ -144,16 +139,29 @@ namespace API.UsesCases.Services
             {
                 Id = t.Id,
                 Id_Usuario = t.Id_Usuario,
-                Id_Cliente = t.Id_Cliente,
+                Id_Comercio = t.Id_Comercio,
                 Id_Servicio = t.Id_Servicio,
                 Status = t.Status,
                 Fecha_Inicio = t.Fecha_Inicio,
                 Fecha_Fin = t.Fecha_Fin,
                 Observaciones = t.Observaciones,
-                
-                NombreUsuario = t.Usuario?.Nombre
+                NombreUsuario = t.Usuario?.Nombre ?? "Usuario N/A",
+                NombreComercio = t.Comercio?.Nombre ?? "Negocio no encontrado", 
+                DireccionComercio = t.Comercio?.Direccion ?? "Negocio no encontrado",
+                NombreServicio = t.Servicio?.Nombre ?? "Servicio no encontrado"
             };
         }
+        public bool CancelarTurno(int id)
+        {
+            var entity = UnitOfWork.TurnoRepository.GetById(id);
+            if (entity == null) return false;
 
+            entity.Status = false;
+
+            UnitOfWork.TurnoRepository.Update(entity);
+            UnitOfWork.Save();
+
+            return true;
+        }
     }
 }

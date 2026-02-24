@@ -13,6 +13,13 @@ namespace API.UsesCases.UnitOfWork.Interfaces
         IUsuarioRepository UsuarioRepository { get; }
         ITurnoRepository TurnoRepository { get; }
         IClienteRepository ClienteRepository { get; }
+        IServicioRepository ServicioRepository { get; }
+        
+        IComercioRepository ComercioRepository { get; }
+
+        ICategoriaRepository CategoriaRepository { get; }
+
+
         void Save();
     }
 }
